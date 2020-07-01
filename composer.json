@@ -1,0 +1,12 @@
+{
+    "name": "kofus/magenta-deepl",
+    "type": "library",
+    
+    "autoload": {
+        "psr-0": {
+            "Kofus\\Deepl\\": "src/Kofus/Deepl/"
+        },
+        "classmap" : ["Kofus/Deepl/Module.php"]
+    }
+}
+
