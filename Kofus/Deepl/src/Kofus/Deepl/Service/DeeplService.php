@@ -3,6 +3,7 @@ namespace Kofus\Deepl\Service;
 use Kofus\System\Service\AbstractService;
 use Kofus\System\Node\NodeInterface;
 use Kofus\System\Entity\PageEntity;
+use Kofus\System\Entity\TranslationEntity;
 
 
 class DeeplService extends AbstractService
@@ -113,5 +114,18 @@ class DeeplService extends AbstractService
                 }
             }
         }
+    }
+    
+    public function finishTranslation(TranslationEntity $t)
+    {
+        if ($t->getValue()) return;
+        
+        $targetLang = strtoupper(substr($t->getLocale(), 0, 2));
+        $sourceLang = strtoupper(substr($this->config()->get('locales.default'), 0, 2));
+        $value = $this->translateText($t->getMsgId(), array('target_lang' => $targetLang, 'source_lang' => $sourceLang));
+        $t->setValue($value);
+        $this->em()->persist($t);
+        $this->em()->flush();
+        
     }
 }
